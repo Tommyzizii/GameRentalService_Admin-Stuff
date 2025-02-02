@@ -83,41 +83,31 @@ export const MembershipForm = ({
                 phone: e.target.value
               })} required />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
-                  Street*
-                </label>
-                <input type="email" className="w-full bg-gray-600 text-white px-4 py-2 rounded-lg" value={formData.email} onChange={e => setFormData({
+            </div>
+          </div>
+<div className="bg-gray-700 p-4 rounded-lg space-y-4">
+            <h3 className="text-lg font-medium text-white flex items-center gap-2">
+              <MapPin size={20} />
+              Address
+            </h3>
+            <div className="space-y-4">
+              <input type="text" placeholder="Street Address" className="w-full bg-gray-600 text-white px-4 py-2 rounded-lg" value={formData.address} onChange={e => setFormData({
+              ...formData,
+              address: e.target.value
+            })} />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <input type="text" placeholder="City" className="w-full bg-gray-600 text-white px-4 py-2 rounded-lg" value={formData.city} onChange={e => setFormData({
                 ...formData,
-                email: e.target.value
-              })} required />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
-                  City*
-                </label>
-                <input type="email" className="w-full bg-gray-600 text-white px-4 py-2 rounded-lg" value={formData.email} onChange={e => setFormData({
+                city: e.target.value
+              })} />
+                <input type="text" placeholder="State" className="w-full bg-gray-600 text-white px-4 py-2 rounded-lg" value={formData.state} onChange={e => setFormData({
                 ...formData,
-                email: e.target.value
-              })} required />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
-                  State*
-                </label>
-                <input type="email" className="w-full bg-gray-600 text-white px-4 py-2 rounded-lg" value={formData.email} onChange={e => setFormData({
+                state: e.target.value
+              })} />
+                <input type="text" placeholder="ZIP Code" className="w-full bg-gray-600 text-white px-4 py-2 rounded-lg" value={formData.zipCode} onChange={e => setFormData({
                 ...formData,
-                email: e.target.value
-              })} required />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
-                  Zipcode*
-                </label>
-                <input type="email" className="w-full bg-gray-600 text-white px-4 py-2 rounded-lg" value={formData.email} onChange={e => setFormData({
-                ...formData,
-                email: e.target.value
-              })} required />
+                zipCode: e.target.value
+              })} />
               </div>
             </div>
           </div>
@@ -192,7 +182,7 @@ export const MembershipForm = ({
           </div> */}
           <div className="flex space-x-3 pt-4">
             <button type="submit" className="flex-1 bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700">
-              Create Membership
+              Add Customer
             </button>
             <button type="button" onClick={onCancel} className="flex-1 bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-500">
               Cancel

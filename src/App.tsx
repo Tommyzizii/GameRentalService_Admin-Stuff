@@ -100,7 +100,7 @@ export function App() {
                 Users Management
               </h2>
               <button onClick={() => setShowUserForm(true)} className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
-                Add New User
+                Add Customer
               </button>
             </div>
             <DataTable headers={["ID", "Name", "Email", "Status"]} data={mockUsers} onEdit={()=>{}} onDelete={()=>{}} />
@@ -163,7 +163,7 @@ export function App() {
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold text-white">Customers</h2>
               <button onClick={() => setShowMembershipForm(true)} className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
-                New Member
+                Add Customer
               </button>
             </div>
             <RentalDataTable headers={["id", "name", "email", "age", "joinDate"]} data={mockMemberships} onEdit={()=>{}} onDelete={()=>{}} />
