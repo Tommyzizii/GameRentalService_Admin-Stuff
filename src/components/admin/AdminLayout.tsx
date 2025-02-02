@@ -1,5 +1,5 @@
 import React from "react";
-import { Users, UserCog, GamepadIcon, LayoutDashboard, ClipboardList, UserPlus } from "lucide-react";
+import { Users, UserCog, GamepadIcon, LayoutDashboard, ClipboardList, UserPlus, Mail } from "lucide-react";
 interface AdminLayoutProps {
   children: React.ReactNode;
   currentSection: string;
@@ -38,9 +38,13 @@ export const AdminLayout = ({
     icon: <ClipboardList size={20} />,
     id: "rentals"
   }, {
-    name: "Memberships",
+    name: "Users",
     icon: <UserPlus size={20} />,
     id: "memberships"
+  }, {
+    name: "Inbox",
+    icon: <Mail size={20} />,
+    id: "inbox"
   }];
   const menuItems = userRole === "admin" ? adminMenuItems : staffMenuItems;
   return <div className="flex h-screen bg-gray-900">

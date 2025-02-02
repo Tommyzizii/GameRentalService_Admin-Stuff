@@ -7,6 +7,7 @@ import { RentalForm } from "./components/staff/RentalForm";
 import { MembershipForm } from "./components/staff/MembershipForm";
 import { LoginPage } from "./components/auth/LoginPage";
 import { RentalDataTable } from "./components/staff/rentalDataTable";
+import { InboxTable } from "./components/staff/inboxTable";
 import { UserForm } from "./components/admin/UserForm";
 const mockUsers = [{
   id: 1,
@@ -59,6 +60,11 @@ const mockMemberships = [{
   status: "Active",
   joinDate: "2023-01-15"
 }];
+const mockNotice = [{
+  id: 1,
+  content: "We're close tomorrow.",
+  date: "2025-02-02"
+}]
 export function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState<"user" | "staff" | "admin" | null>(null);
@@ -167,6 +173,13 @@ export function App() {
               </button>
             </div>
             <RentalDataTable headers={["id", "name", "email", "age", "joinDate"]} data={mockMemberships} onEdit={()=>{}} onDelete={()=>{}} />
+          </div>;
+      case "inbox":
+        return <div>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-white">Notice</h2>
+            </div>
+            <InboxTable headers={["id", "content", "date"]} data={mockNotice} onEdit={()=>{}} onDelete={()=>{}} />
           </div>;
       default:
         return null;
