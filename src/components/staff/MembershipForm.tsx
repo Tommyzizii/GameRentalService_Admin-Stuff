@@ -18,10 +18,7 @@ export const MembershipForm = ({
     state: "",
     zipCode: "",
     emergencyContact: "",
-    emergencyPhone: "",
-    membershipType: "standard",
-    status: "active",
-    notes: ""
+    emergencyPhone: ""
   });
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +27,7 @@ export const MembershipForm = ({
   return <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 overflow-y-auto">
       <div className="bg-gray-800 rounded-lg p-6 w-full max-w-2xl my-8">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-white">New Membership</h2>
+          <h2 className="text-2xl font-bold text-white">New Customer</h2>
           <button onClick={onCancel} className="text-gray-400 hover:text-gray-300">
             ✕
           </button>
@@ -86,9 +83,45 @@ export const MembershipForm = ({
                 phone: e.target.value
               })} required />
               </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Street*
+                </label>
+                <input type="email" className="w-full bg-gray-600 text-white px-4 py-2 rounded-lg" value={formData.email} onChange={e => setFormData({
+                ...formData,
+                email: e.target.value
+              })} required />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  City*
+                </label>
+                <input type="email" className="w-full bg-gray-600 text-white px-4 py-2 rounded-lg" value={formData.email} onChange={e => setFormData({
+                ...formData,
+                email: e.target.value
+              })} required />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  State*
+                </label>
+                <input type="email" className="w-full bg-gray-600 text-white px-4 py-2 rounded-lg" value={formData.email} onChange={e => setFormData({
+                ...formData,
+                email: e.target.value
+              })} required />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Zipcode*
+                </label>
+                <input type="email" className="w-full bg-gray-600 text-white px-4 py-2 rounded-lg" value={formData.email} onChange={e => setFormData({
+                ...formData,
+                email: e.target.value
+              })} required />
+              </div>
             </div>
           </div>
-          <div className="bg-gray-700 p-4 rounded-lg space-y-4">
+          {/* <div className="bg-gray-700 p-4 rounded-lg space-y-4">
             <h3 className="text-lg font-medium text-white flex items-center gap-2">
               <MapPin size={20} />
               Address
@@ -147,8 +180,8 @@ export const MembershipForm = ({
                 </select>
               </div>
             </div>
-          </div>
-          <div>
+          </div> */}
+          {/* <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">
               Additional Notes
             </label>
@@ -156,7 +189,7 @@ export const MembershipForm = ({
             ...formData,
             notes: e.target.value
           })} placeholder="Any additional notes about the member..." />
-          </div>
+          </div> */}
           <div className="flex space-x-3 pt-4">
             <button type="submit" className="flex-1 bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700">
               Create Membership
