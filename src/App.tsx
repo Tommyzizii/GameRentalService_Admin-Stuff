@@ -146,7 +146,7 @@ export function App() {
             title: "Active Rentals",
             value: "45"
           }, {
-            title: "Active Members",
+            title: "Active Users",
             value: "156"
           }].map(stat => <div key={stat.title} className="bg-gray-800 p-6 rounded-lg">
                 <h3 className="text-gray-400 text-sm">{stat.title}</h3>
