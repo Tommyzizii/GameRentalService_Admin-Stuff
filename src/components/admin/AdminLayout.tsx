@@ -28,6 +28,10 @@ export const AdminLayout = ({
     name: "Games",
     icon: <GamepadIcon size={20} />,
     id: "games"
+  }, {
+    name: "Notice", 
+    icon: <Mail size={20} />,
+    id: "notice"
   }];
   const staffMenuItems = [{
     name: "Dashboard",

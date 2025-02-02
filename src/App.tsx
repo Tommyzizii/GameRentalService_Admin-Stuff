@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Navbar } from "./components/Navbar";
-import { GameCard } from "./components/GameCard";
 import { AdminLayout } from "./components/admin/AdminLayout";
 import { DataTable } from "./components/admin/DataTable";
 import { RentalForm } from "./components/staff/RentalForm";

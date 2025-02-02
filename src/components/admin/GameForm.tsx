@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { User } from "lucide-react";
+import { Gamepad2 } from "lucide-react";
 interface GameFormProps {
   onSubmit: (data: any) => void;
   onCancel: () => void;
@@ -33,7 +33,7 @@ export const GameForm = ({
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="bg-gray-700 p-4 rounded-lg space-y-4">
             <h3 className="text-lg font-medium text-white flex items-center gap-2">
-              <User size={20} />
+              <Gamepad2 size={20} />
               Game Information
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
