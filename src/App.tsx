@@ -8,17 +8,15 @@ import { MembershipForm } from "./components/staff/MembershipForm";
 import { LoginPage } from "./components/auth/LoginPage";
 import { RentalDataTable } from "./components/staff/rentalDataTable";
 import { InboxTable } from "./components/staff/inboxTable";
-import { UserForm } from "./components/admin/UserForm";
+import { StaffForm } from "./components/admin/StaffForm";
 const mockUsers = [{
   id: 1,
   name: "John Doe",
-  email: "john@example.com",
-  status: "Active"
+  email: "john@example.com"
 }, {
   id: 2,
   name: "Jane Smith",
-  email: "jane@example.com",
-  status: "Active"
+  email: "jane@example.com"
 }];
 const mockStaff = [{
   id: 1,
@@ -105,7 +103,7 @@ export function App() {
               <h2 className="text-2xl font-bold text-white">
                 Users Management
               </h2>
-              <button onClick={() => setShowUserForm(true)} className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
+              <button onClick={() => setShowMembershipForm(true)} className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
                 Add Customer
               </button>
             </div>
@@ -117,7 +115,7 @@ export function App() {
               <h2 className="text-2xl font-bold text-white">
                 Staff Management
               </h2>
-              <button className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
+              <button onClick={() => setShowUserForm(true)} className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
                 Add New Staff
               </button>
             </div>
@@ -202,12 +200,14 @@ export function App() {
       console.log("New rental:", data);
       setShowRentalForm(false);
     }} onCancel={() => setShowRentalForm(false)} />}
-     {showUserForm && <UserForm onSubmit={data => {
+
+     {showUserForm && <StaffForm onSubmit={data => {
       console.log("New rental:", data);
       setShowUserForm(false);
     }} onCancel={() => setShowUserForm(false)} />}
+
       {showMembershipForm && <MembershipForm onSubmit={data => {
-      console.log("New member:", data);
+      console.log("New user:", data);
       setShowMembershipForm(false);
     }} onCancel={() => setShowMembershipForm(false)} />}
     </>;
