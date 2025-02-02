@@ -133,7 +133,7 @@ export function App() {
         return null;
     }
   };
-  const   renderStaffSection = () => {
+  const renderStaffSection = () => {
     switch (currentSection) {
       case "dashboard":
         return <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -161,12 +161,12 @@ export function App() {
       case "memberships":
         return <div>
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-white">Memberships</h2>
+              <h2 className="text-2xl font-bold text-white">Customers</h2>
               <button onClick={() => setShowMembershipForm(true)} className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
                 New Member
               </button>
             </div>
-            <RentalDataTable headers={["id", "name", "email", "age", "status", "joinDate"]} data={mockMemberships} onEdit={()=>{}} onDelete={()=>{}} />
+            <RentalDataTable headers={["id", "name", "email", "age", "joinDate"]} data={mockMemberships} onEdit={()=>{}} onDelete={()=>{}} />
           </div>;
       default:
         return null;
