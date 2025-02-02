@@ -9,6 +9,7 @@ import { RentalDataTable } from "./components/staff/rentalDataTable";
 import { InboxTable } from "./components/staff/inboxTable";
 import { StaffForm } from "./components/admin/StaffForm";
 import { GameForm } from "./components/admin/GameForm";
+import { NoticeForm } from "./components/admin/NoticeForm";
 const mockUsers = [{
   id: 1,
   name: "John Doe",
@@ -71,6 +72,7 @@ export function App() {
   const [showMembershipForm, setShowMembershipForm] = useState(false);
   const [showStaffForm, setShowStaffForm] = useState(false);
   const [showGameForm, setShowGameForm] = useState(false);
+  const [showNoticeForm, setShowNoticeForm] = useState(false);
   const handleLogin = (loginData: {
     email: string;
     password: string;
@@ -133,6 +135,16 @@ export function App() {
               </button>
             </div>
             <DataTable headers={["ID", "Title", "Stock", "Price", "Status"]} data={mockGames} onEdit={()=>{}} onDelete={()=>{}} />
+          </div>;
+        case "notice":
+          return <div>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-white">Notice</h2>
+              <button onClick={() => setShowNoticeForm(true)} className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
+                Send New Notice
+              </button>
+            </div>
+            <InboxTable headers={["id", "content", "date"]} data={mockNotice} onEdit={()=>{}} onDelete={()=>{}} />
           </div>;
       default:
         return null;
@@ -216,5 +228,10 @@ export function App() {
         console.log("New game:", data);
         setShowGameForm(false);
       }} onCancel={() => setShowGameForm(false)} />}
+
+      {showNoticeForm && <NoticeForm onSubmit={data => {
+        console.log("New notice:", data);
+        setShowNoticeForm(false);
+      }} onCancel={() => setShowNoticeForm(false)} />}
     </>;
 }
