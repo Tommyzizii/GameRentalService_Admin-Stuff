@@ -9,6 +9,7 @@ import { LoginPage } from "./components/auth/LoginPage";
 import { RentalDataTable } from "./components/staff/rentalDataTable";
 import { InboxTable } from "./components/staff/inboxTable";
 import { StaffForm } from "./components/admin/StaffForm";
+import { GameForm } from "./components/admin/GameForm";
 const mockUsers = [{
   id: 1,
   name: "John Doe",
@@ -69,7 +70,8 @@ export function App() {
   const [currentSection, setCurrentSection] = useState("dashboard");
   const [showRentalForm, setShowRentalForm] = useState(false);
   const [showMembershipForm, setShowMembershipForm] = useState(false);
-  const [showUserForm, setShowUserForm] = useState(false);
+  const [showStaffForm, setShowStaffForm] = useState(false);
+  const [showGameForm, setShowGameForm] = useState(false);
   const handleLogin = (loginData: {
     email: string;
     password: string;
@@ -115,7 +117,7 @@ export function App() {
               <h2 className="text-2xl font-bold text-white">
                 Staff Management
               </h2>
-              <button onClick={() => setShowUserForm(true)} className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
+              <button onClick={() => setShowStaffForm(true)} className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
                 Add New Staff
               </button>
             </div>
@@ -127,7 +129,7 @@ export function App() {
               <h2 className="text-2xl font-bold text-white">
                 Games Management
               </h2>
-              <button className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
+              <button onClick={() => setShowGameForm(true)} className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
                 Add New Game
               </button>
             </div>
@@ -201,14 +203,19 @@ export function App() {
       setShowRentalForm(false);
     }} onCancel={() => setShowRentalForm(false)} />}
 
-     {showUserForm && <StaffForm onSubmit={data => {
-      console.log("New rental:", data);
-      setShowUserForm(false);
-    }} onCancel={() => setShowUserForm(false)} />}
+     {showStaffForm && <StaffForm onSubmit={data => {
+      console.log("New staff:", data);
+      setShowStaffForm(false);
+    }} onCancel={() => setShowStaffForm(false)} />}
 
       {showMembershipForm && <MembershipForm onSubmit={data => {
       console.log("New user:", data);
       setShowMembershipForm(false);
     }} onCancel={() => setShowMembershipForm(false)} />}
+
+      {showGameForm && <GameForm onSubmit={data => {
+        console.log("New game:", data);
+        setShowGameForm(false);
+      }} onCancel={() => setShowGameForm(false)} />}
     </>;
 }

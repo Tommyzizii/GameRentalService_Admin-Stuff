@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { User, Mail, Phone, MapPin, BadgeCheck, BriefcaseBusiness } from "lucide-react";
+import { User, Mail, MapPin, BriefcaseBusiness } from "lucide-react";
 interface MembershipFormProps {
   onSubmit: (data: any) => void;
   onCancel: () => void;
