@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Mail, Send } from "lucide-react";
+import { Mail } from "lucide-react";
 interface GameFormProps {
     onSubmit: (data: any) => void;
     onCancel: () => void;
