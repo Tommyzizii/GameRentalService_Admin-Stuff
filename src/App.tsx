@@ -200,7 +200,7 @@ export function App() {
       case "report":
         return <div>
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-white">Notice</h2>
+              <h2 className="text-2xl font-bold text-white">Report</h2>
             </div>
             <InboxTable headers={["ID", "Reason", "Date", "Details", "Attachment"]} data={mockReport} onEdit={()=>{}} onDelete={()=>{}} />
           </div>;
