@@ -26,7 +26,7 @@ export const InboxTable = ({
           {data.map((item, index) => <tr key={index} className="hover:bg-gray-700">
               {headers.map(header => <td key={header} className="p-4 text-gray-300">
                 {console.log(header)} 
-                  {item[header]}
+                  {item[header.toLowerCase()]}
                 </td>)}
               {/* <td className="p-4">
                 <div className="flex space-x-2">
