@@ -22,13 +22,11 @@ const mockUsers = [{
 const mockStaff = [{
   id: 1,
   name: "Admin User",
-  role: "Administrator",
-  department: "Management"
+  type: "Administrator"
 }, {
   id: 2,
   name: "Staff User",
-  role: "Customer Service",
-  department: "Support"
+  type: "Full Time"
 }];
 const mockGames = [{
   id: 1,
@@ -63,10 +61,17 @@ const mockNotice = [{
   id: 1,
   content: "We're close tomorrow.",
   date: "2025-02-02"
-}]
+}];
+const mockReport = [{
+  id: 1,
+  reason: "Disc is broken",
+  date: "2025-01-31",
+  details: "Disc is already broken when i bought it",
+  attachment: ""
+}];
 export function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userRole, setUserRole] = useState<"user" | "staff" | "admin" | null>(null);
+  const [userRole, setUserRole] = useState<"staff" | "admin" | null>(null);
   const [currentSection, setCurrentSection] = useState("dashboard");
   const [showRentalForm, setShowRentalForm] = useState(false);
   const [showMembershipForm, setShowMembershipForm] = useState(false);
@@ -76,7 +81,7 @@ export function App() {
   const handleLogin = (loginData: {
     email: string;
     password: string;
-    role: "user" | "staff" | "admin";
+    role: "staff" | "admin";
   }) => {
     setIsLoggedIn(true);
     setUserRole(loginData.role);
@@ -122,7 +127,7 @@ export function App() {
                 Add New Staff
               </button>
             </div>
-            <DataTable headers={["ID", "Name", "Role", "Department"]} data={mockStaff} onEdit={()=>{}} onDelete={()=>{}} />
+            <DataTable headers={["ID", "Name", "Type"]} data={mockStaff} onEdit={()=>{}} onDelete={()=>{}} />
           </div>;
       case "games":
         return <div>
@@ -144,7 +149,7 @@ export function App() {
                 Send New Notice
               </button>
             </div>
-            <InboxTable headers={["id", "content", "date"]} data={mockNotice} onEdit={()=>{}} onDelete={()=>{}} />
+            <InboxTable headers={["ID", "Content", "Date"]} data={mockNotice} onEdit={()=>{}} onDelete={()=>{}} />
           </div>;
       default:
         return null;
@@ -173,7 +178,7 @@ export function App() {
                 New Rental
               </button> */}
             </div>
-            <RentalDataTable headers={["id", "memberName", "gameName", "rentDate", "dueDate", "status"]} data={mockRentals} onEdit={()=>{}} onDelete={()=>{}} />
+            <RentalDataTable headers={["ID", "MemberName", "GameName", "RentDate", "DueDate", "Status"]} data={mockRentals} onEdit={()=>{}} onDelete={()=>{}} />
           </div>;
       case "memberships":
         return <div>
@@ -183,14 +188,21 @@ export function App() {
                 Add Customer
               </button>
             </div>
-            <RentalDataTable headers={["id", "name", "email", "age", "joinDate"]} data={mockMemberships} onEdit={()=>{}} onDelete={()=>{}} />
+            <RentalDataTable headers={["ID", "Name", "Email", "Age", "JoinDate"]} data={mockMemberships} onEdit={()=>{}} onDelete={()=>{}} />
           </div>;
-      case "inbox":
+      case "notice":
         return <div>
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold text-white">Notice</h2>
             </div>
-            <InboxTable headers={["id", "content", "date"]} data={mockNotice} onEdit={()=>{}} onDelete={()=>{}} />
+            <InboxTable headers={["ID", "Content", "Date"]} data={mockNotice} onEdit={()=>{}} onDelete={()=>{}} />
+          </div>;
+      case "report":
+        return <div>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-white">Notice</h2>
+            </div>
+            <InboxTable headers={["ID", "Reason", "Date", "Details", "Attachment"]} data={mockReport} onEdit={()=>{}} onDelete={()=>{}} />
           </div>;
       default:
         return null;
@@ -198,12 +210,6 @@ export function App() {
   };
   if (!isLoggedIn || !userRole) {
     return <LoginPage onLogin={handleLogin} />;
-  }
-  if (userRole === "user") {
-    return <div className="min-h-screen bg-gray-900">
-        <Navbar />
-        {/* Customer view content */}
-      </div>;
   }
   return <>
       <AdminLayout currentSection={currentSection} onSectionChange={setCurrentSection} userRole={userRole}>

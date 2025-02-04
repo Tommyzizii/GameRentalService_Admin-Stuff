@@ -1,5 +1,5 @@
 import React from "react";
-import { Users, UserCog, GamepadIcon, LayoutDashboard, ClipboardList, UserPlus, Mail } from "lucide-react";
+import { Users, UserCog, GamepadIcon, LayoutDashboard, ClipboardList, UserPlus, Mail, MailWarning } from "lucide-react";
 interface AdminLayoutProps {
   children: React.ReactNode;
   currentSection: string;
@@ -46,9 +46,13 @@ export const AdminLayout = ({
     icon: <UserPlus size={20} />,
     id: "memberships"
   }, {
-    name: "Inbox",
+    name: "Notice",
     icon: <Mail size={20} />,
-    id: "inbox"
+    id: "notice"
+  }, {
+    name: "Report",
+    icon: <MailWarning size={20} />,
+    id: "report"
   }];
   const menuItems = userRole === "admin" ? adminMenuItems : staffMenuItems;
   return <div className="flex h-screen bg-gray-900">
