@@ -76,7 +76,7 @@ export const StaffForm = ({
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">
-                  Type*
+                  Types*
                 </label>
                 <input type="text" className="w-full bg-gray-600 text-white px-4 py-2 rounded-lg" value={formData.type} onChange={e => setFormData({
                 ...formData,
