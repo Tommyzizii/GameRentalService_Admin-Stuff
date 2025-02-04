@@ -43,10 +43,10 @@ const mockGames = [{
 }];
 const mockRentals = [{
   id: 1,
-  memberName: "John Doe",
-  gameName: "Cyberpunk 2077",
-  rentDate: "2023-07-01",
-  dueDate: "2023-07-08",
+  username: "John Doe",
+  gamename: "Cyberpunk 2077",
+  rentdate: "2023-07-01",
+  duedate: "2023-07-08",
   status: "Active"
 }];
 const mockMemberships = [{
@@ -181,7 +181,7 @@ export function App() {
                 New Rental
               </button> */}
             </div>
-            <RentalDataTable headers={["ID", "MemberName", "GameName", "RentDate", "DueDate", "Status"]} data={mockRentals} onEdit={()=>{}} onDelete={()=>{}} />
+            <RentalDataTable headers={["ID", "Username", "Gamename", "RentDate", "DueDate", "Status"]} data={mockRentals} onEdit={()=>{}} onDelete={()=>{}} />
           </div>;
       case "memberships":
         return <div>
