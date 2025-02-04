@@ -87,6 +87,9 @@ export function App() {
     setUserRole(loginData.role);
     console.log("Logged in as:", loginData.role);
   };
+  const handleLogout=()=>{
+    setIsLoggedIn(false);
+  }
   const renderAdminSection = () => {
     switch (currentSection) {
       case "dashboard":
@@ -212,7 +215,7 @@ export function App() {
     return <LoginPage onLogin={handleLogin} />;
   }
   return <>
-      <AdminLayout currentSection={currentSection} onSectionChange={setCurrentSection} userRole={userRole}>
+      <AdminLayout handleLogin={handleLogout} currentSection={currentSection} onSectionChange={setCurrentSection} userRole={userRole}>
         {userRole === "admin" ? renderAdminSection() : renderStaffSection()}
       </AdminLayout>
       {showRentalForm && <RentalForm onSubmit={data => {

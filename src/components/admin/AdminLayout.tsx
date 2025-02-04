@@ -5,12 +5,14 @@ interface AdminLayoutProps {
   currentSection: string;
   onSectionChange: (section: string) => void;
   userRole: "admin" | "staff";
+  handleLogin:()=>void;
 }
 export const AdminLayout = ({
   children,
   currentSection,
   onSectionChange,
-  userRole
+  userRole,
+  handleLogin
 }: AdminLayoutProps) => {
   const adminMenuItems = [{
     name: "Dashboard",
@@ -67,7 +69,12 @@ export const AdminLayout = ({
               {item.icon}
               <span>{item.name}</span>
             </button>)}
+            <button onClick={handleLogin} className="w-full flex items-center space-x-3 p-3 rounded-lg text-red-400 hover:bg-gray-700 mt-auto">
+            {/* <LogOut size={20} /> */}
+            <span>Sign Out</span>
+        </button>
         </nav>
+        
       </div>
       <div className="flex-1 overflow-auto">
         <div className="p-8">{children}</div>
