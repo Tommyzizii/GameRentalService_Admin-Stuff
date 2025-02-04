@@ -1,5 +1,4 @@
-import React from "react";
-import { Check, Edit, Trash2, X } from "lucide-react";
+import { Check, X } from "lucide-react";
 interface DataTableProps {
   headers: string[];
   data: any[];
@@ -12,6 +11,7 @@ export const RentalDataTable = ({
   onEdit,
   onDelete
 }: DataTableProps) => {
+  console.log(data)
   return <div className="w-full overflow-x-auto rounded-lg border border-gray-700">
       <table className="w-full text-left">
         <thead className="bg-gray-800">

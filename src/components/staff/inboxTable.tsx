@@ -1,5 +1,3 @@
-import React from "react";
-import { Check, Edit, Trash2, X } from "lucide-react";
 interface DataTableProps {
   headers: string[];
   data: any[];
@@ -8,9 +6,7 @@ interface DataTableProps {
 }
 export const InboxTable = ({
   headers,
-  data,
-  onEdit,
-  onDelete
+  data
 }: DataTableProps) => {
   return <div className="w-full overflow-x-auto rounded-lg border border-gray-700">
       <table className="w-full text-left">
