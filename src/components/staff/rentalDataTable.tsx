@@ -1,16 +1,18 @@
 import { Check, X } from "lucide-react";
-interface DataTableProps {
-  headers: string[];
-  data: any[];
-  onEdit: (item: any) => void;
-  onDelete: (item: any) => void;
+import { DataTableProps } from "./inboxTable";
+
+interface RentalDataTableProps extends DataTableProps {
+  tableType?: string;
 }
+
 export const RentalDataTable = ({
   headers,
   data,
+  dataKey,
   onEdit,
-  onDelete
-}: DataTableProps) => {
+  onDelete,
+  tableType="default",
+}: RentalDataTableProps) => {
   console.log(data)
   return <div className="w-full overflow-x-auto rounded-lg border border-gray-700">
       <table className="w-full text-left">
@@ -24,18 +26,20 @@ export const RentalDataTable = ({
         </thead>
         <tbody className="bg-gray-800 divide-y divide-gray-700">
           {data.map((item, index) => <tr key={index} className="hover:bg-gray-700">
-              {headers.map(header => <td key={header} className="p-4 text-gray-300">
+              {dataKey.map(header => <td key={header} className="p-4 text-gray-300">
                 {console.log(header)} 
-                  {item[header.toLowerCase()]}
+                  {item[header]}
                 </td>)}
               <td className="p-4">
                 <div className="flex space-x-2">
                   <button onClick={() => onEdit(item)} className="p-1 text-blue-400 hover:text-blue-300">
                     <Check size={18} />
                   </button>
-                  <button onClick={() => onDelete(item)} className="p-1 text-red-400 hover:text-red-300">
+                  
+                  {tableType!=="rental" ?item[dataKey[5]]!=="Pending" && <button onClick={() => onDelete(item[dataKey[0]])} className="p-1 text-red-400 hover:text-red-300">
                     <X size={18} />
-                  </button>
+                    </button>:<></>}
+                    
                 </div>
               </td>
             </tr>)}

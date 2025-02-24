@@ -1,12 +1,14 @@
-interface DataTableProps {
+export interface DataTableProps {
   headers: string[];
   data: any[];
+  dataKey: string[];
   onEdit: (item: any) => void;
   onDelete: (item: any) => void;
 }
 export const InboxTable = ({
   headers,
-  data
+  data,
+  dataKey,
 }: DataTableProps) => {
   return <div className="w-full overflow-x-auto rounded-lg border border-gray-700">
       <table className="w-full text-left">
@@ -20,20 +22,9 @@ export const InboxTable = ({
         </thead>
         <tbody className="bg-gray-800 divide-y divide-gray-700">
           {data.map((item, index) => <tr key={index} className="hover:bg-gray-700">
-              {headers.map(header => <td key={header} className="p-4 text-gray-300">
-                {console.log(header)} 
-                  {item[header.toLowerCase()]}
+              {dataKey.map(header => <td key={header} className="p-4 text-gray-300">
+                  {item[header]}
                 </td>)}
-              {/* <td className="p-4">
-                <div className="flex space-x-2">
-                  <button onClick={() => onEdit(item)} className="p-1 text-blue-400 hover:text-blue-300">
-                    <Check size={18} />
-                  </button>
-                  <button onClick={() => onDelete(item)} className="p-1 text-red-400 hover:text-red-300">
-                    <X size={18} />
-                  </button>
-                </div>
-              </td> */}
             </tr>)}
         </tbody>
       </table>

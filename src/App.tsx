@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navbar } from "./components/Navbar";
 import { AdminLayout } from "./components/admin/AdminLayout";
 import { DataTable } from "./components/admin/DataTable";
@@ -78,6 +78,10 @@ export function App() {
   const [showStaffForm, setShowStaffForm] = useState(false);
   const [showGameForm, setShowGameForm] = useState(false);
   const [showNoticeForm, setShowNoticeForm] = useState(false);
+  const [gameReport,setGameReport]=useState([]);
+  const [rental,setRental]=useState([]);
+  const [customer,setCustomer]=useState([]);
+  const [notice,setNotice]=useState([]);
   const handleLogin = (loginData: {
     email: string;
     password: string;
@@ -90,6 +94,27 @@ export function App() {
   const handleLogout=()=>{
     setIsLoggedIn(false);
   }
+  const fetchData=async(route:string,setState:React.Dispatch<React.SetStateAction<never[]>>)=>{
+    const response= await fetch(route);
+    const data= await response.json();
+    setState (data);  
+    console.log(route);
+    console.log(data);
+  }
+  const deleteRental=async(id:number)=>{
+    const response= await fetch(`http://127.0.0.1:5000/rental/${id}`,{
+      method:"DELETE"
+    });
+    const data= await response.json();
+    console.log(data);
+  }
+  useEffect(()=>{
+    console.log("Fetching data");
+    fetchData("http://127.0.0.1:5000/rental",setRental);
+    fetchData("http://127.0.0.1:5000/customer",setCustomer);
+    fetchData("http://127.0.0.1:5000/notice",setNotice);
+    fetchData("http://127.0.0.1:5000/game_report",setGameReport);
+  },[])
   const renderAdminSection = () => {
     switch (currentSection) {
       case "dashboard":
@@ -152,7 +177,7 @@ export function App() {
                 Send New Notice
               </button>
             </div>
-            <InboxTable headers={["ID", "Content", "Date"]} data={mockNotice} onEdit={()=>{}} onDelete={()=>{}} />
+            <InboxTable dataKey={["notice_id","reason","date"]} headers={["ID", "Content", "Date"]} data={notice} onEdit={()=>{}} onDelete={()=>{}} />
           </div>;
       default:
         return null;
@@ -181,7 +206,7 @@ export function App() {
                 New Rental
               </button> */}
             </div>
-            <RentalDataTable headers={["ID", "Username", "Gamename", "RentDate", "DueDate", "Status"]} data={mockRentals} onEdit={()=>{}} onDelete={()=>{}} />
+            <RentalDataTable tableType="rental" dataKey={["rental_id","customer_id","game_name","rent_date","due_date","status"]}  headers={["ID", "Username", "Gamename", "RentDate", "DueDate", "Status"]} data={rental} onEdit={()=>{}} onDelete={(id)=>deleteRental(id)} />
           </div>;
       case "memberships":
         return <div>
@@ -191,21 +216,21 @@ export function App() {
                 Add Customer
               </button>
             </div>
-            <RentalDataTable headers={["ID", "Name", "Email", "Age", "JoinDate"]} data={mockMemberships} onEdit={()=>{}} onDelete={()=>{}} />
+            <RentalDataTable dataKey={["customer_id","customer_name","email","created_date"]} headers={["ID", "Name", "Email", "JoinDate"]} data={customer} onEdit={()=>{}} onDelete={()=>{}} />
           </div>;
       case "notice":
         return <div>
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold text-white">Notice</h2>
             </div>
-            <InboxTable headers={["ID", "Content", "Date"]} data={mockNotice} onEdit={()=>{}} onDelete={()=>{}} />
+            <InboxTable dataKey={["notice_id","reason","date"]} headers={["ID", "Content", "Date"]} data={notice} onEdit={()=>{}} onDelete={()=>{}} />
           </div>;
       case "report":
         return <div>
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold text-white">Report</h2>
             </div>
-            <InboxTable headers={["ID", "Reason", "Date", "Details", "Attachment"]} data={mockReport} onEdit={()=>{}} onDelete={()=>{}} />
+            <InboxTable dataKey={["report_id","reason","report_date","detail","attachment"]} headers={["ID", "Reason", "Date", "Details", "Attachment"]} data={gameReport} onEdit={()=>{}} onDelete={()=>{}} />
           </div>;
       default:
         return null;
@@ -214,6 +239,7 @@ export function App() {
   if (!isLoggedIn || !userRole) {
     return <LoginPage onLogin={handleLogin} />;
   }
+  
   return <>
       <AdminLayout handleLogin={handleLogout} currentSection={currentSection} onSectionChange={setCurrentSection} userRole={userRole}>
         {userRole === "admin" ? renderAdminSection() : renderStaffSection()}
