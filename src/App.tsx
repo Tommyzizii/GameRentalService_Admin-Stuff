@@ -337,7 +337,7 @@ export function App() {
 
     {showStaffForm && <StaffForm staffId={staffId} onSubmit={data => {
       console.log("New staff:", data);
-      customerId!==null ? updateUser(data,staffId,"http://127.0.0.1:5000/customer",setShowStaffForm,setStaff):
+      customerId!==null ? updateUser(data,staffId,"http://127.0.0.1:5000/staff",setShowStaffForm,setStaff):
       addUser(data,"http://127.0.0.1:5000/staff",setStaff).then(() => setShowStaffForm(false))
     }} onCancel={() => setShowStaffForm(false)} />}
 
