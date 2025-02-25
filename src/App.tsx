@@ -206,7 +206,7 @@ export function App() {
                 New Rental
               </button> */}
             </div>
-            <RentalDataTable tableType="rental" dataKey={["rental_id","customer_id","game_name","rent_date","due_date","status"]}  headers={["ID", "Username", "Gamename", "RentDate", "DueDate", "Status"]} data={rental} onEdit={()=>{}} onDelete={(id)=>deleteRental(id)} />
+            <RentalDataTable tableType="rental" dataKey={["rental_id","customer_name","game_name","rent_date","due_date","status"]}  headers={["ID", "Username", "Gamename", "RentDate", "DueDate", "Status"]} data={rental} onEdit={()=>{}} onDelete={(id)=>deleteRental(id)} />
           </div>;
       case "memberships":
         return <div>
