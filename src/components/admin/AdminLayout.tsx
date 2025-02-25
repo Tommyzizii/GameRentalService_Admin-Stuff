@@ -15,10 +15,6 @@ export const AdminLayout = ({
   handleLogin
 }: AdminLayoutProps) => {
   const adminMenuItems = [{
-    name: "Dashboard",
-    icon: <LayoutDashboard size={20} />,
-    id: "dashboard"
-  }, {
     name: "Users",
     icon: <Users size={20} />,
     id: "users"
@@ -35,11 +31,7 @@ export const AdminLayout = ({
     icon: <Mail size={20} />,
     id: "notice"
   }];
-  const staffMenuItems = [{
-    name: "Dashboard",
-    icon: <LayoutDashboard size={20} />,
-    id: "dashboard"
-  }, {
+  const staffMenuItems = [ {
     name: "Rental Records",
     icon: <ClipboardList size={20} />,
     id: "rentals"

@@ -10,6 +10,7 @@ export const MembershipForm = ({
   onSubmit,
   onCancel
 }: MembershipFormProps) => {
+  
   const [formData, setFormData] = useState({
     customer_name: "",
     email: "",
@@ -19,8 +20,22 @@ export const MembershipForm = ({
     state: "",
     zip_code: "",
     password: "",
-    staff_id: 1
+    staff_id: 0
   });
+  useEffect(() => {
+    const cookieData = document.cookie
+      .split("; ")
+      .find(cookie => cookie.startsWith("userData="))
+      ?.split("=")[1];
+
+    if (cookieData) {
+      const parsedData = JSON.parse(cookieData);
+      setFormData(prevFormData => ({
+      ...prevFormData,
+      staff_id: parsedData.staff_id
+      }));
+    }
+  }, []);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(formData);

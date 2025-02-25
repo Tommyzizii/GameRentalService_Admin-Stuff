@@ -19,11 +19,13 @@ export const GameForm = ({
     stock_number: "",
     image_link: "",
     release_date: "",
-    admin_id: 1
+    admin_id: 0
   });
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(formData);
+    console.log("GAMES")
+    console.log(formData)
   };
   const data = async () => {
     const res = await fetch(`http://127.0.0.1:5000/game/${gameId}`);
@@ -32,10 +34,25 @@ export const GameForm = ({
     console.log(release_date);
     setFormData({
       ...rest,
-      release_date: release_date.split('T')[0]
+      release_date: new Date(release_date).toISOString().split('T')[0]
     });
     console.log(data);
   }
+  useEffect(() => {
+        const cookieData = document.cookie
+          .split("; ")
+          .find(cookie => cookie.startsWith("userData="))
+          ?.split("=")[1];
+    
+        if (cookieData) {
+          const parsedData = JSON.parse(cookieData);
+          setFormData(prevFormData => ({
+          ...prevFormData,
+          admin_id: parsedData.admin_id
+          }));
+          console.log(parsedData.admin_id);
+        }
+      }, []);
   useEffect(() => {
     if (gameId) {
       data();

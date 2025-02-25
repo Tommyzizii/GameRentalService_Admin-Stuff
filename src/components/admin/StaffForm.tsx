@@ -21,8 +21,9 @@ export const StaffForm = ({
     password: "",
     salary:0,
     type:"",
-    admin_id: 1
+    admin_id: 0
   });
+  
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log(formData);
@@ -37,6 +38,21 @@ export const StaffForm = ({
       });
       console.log(data);
     }
+    useEffect(() => {
+      const cookieData = document.cookie
+        .split("; ")
+        .find(cookie => cookie.startsWith("userData="))
+        ?.split("=")[1];
+  
+      if (cookieData) {
+        const parsedData = JSON.parse(cookieData);
+        setFormData(prevFormData => ({
+        ...prevFormData,
+        admin_id: parsedData.admin_id
+        }));
+        console.log(parsedData.admin_id);
+      }
+    }, []);
     useEffect(() => {
       if (staffId) {
         data();

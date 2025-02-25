@@ -33,7 +33,7 @@ export const DataTable = ({
                   <button onClick={() => onEdit(item[dataKey[0]])} className="p-1 text-blue-400 hover:text-blue-300">
                     <Edit size={18} />
                   </button>
-                  <button onClick={() => onDelete(item)} className="p-1 text-red-400 hover:text-red-300">
+                  <button onClick={() => onDelete(item[dataKey[0]])} className="p-1 text-red-400 hover:text-red-300">
                     <Trash2 size={18} />
                   </button>
                 </div>

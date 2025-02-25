@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Mail } from "lucide-react";
 interface GameFormProps {
     onSubmit: (data: any) => void;
@@ -9,7 +9,7 @@ export const NoticeForm = ({
     onCancel
 }: GameFormProps) => {
     const [formData, setFormData] = useState({
-        admin_id: "1",
+        admin_id: 0,
         reason: "",
         date: new Date().toISOString().split('T')[0]
     });
@@ -17,6 +17,21 @@ export const NoticeForm = ({
         e.preventDefault();
         onSubmit(formData);
     };
+    useEffect(() => {
+            const cookieData = document.cookie
+              .split("; ")
+              .find(cookie => cookie.startsWith("userData="))
+              ?.split("=")[1];
+        
+            if (cookieData) {
+              const parsedData = JSON.parse(cookieData);
+              setFormData(prevFormData => ({
+              ...prevFormData,
+              admin_id: parsedData.admin_id
+              }));
+              console.log(parsedData.admin_id);
+            }
+          }, []);
     return <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 overflow-y-auto">
         <div className="bg-gray-800 rounded-lg p-6 w-full max-w-2xl my-8">
             <div className="flex justify-between items-center mb-6">

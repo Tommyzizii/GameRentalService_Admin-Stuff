@@ -41,7 +41,6 @@ export const RentalDataTable = ({
                   {tableType!=="rental" && tableType!=="staff" ?item[dataKey[5]]!=="Pending" && <button onClick={() => onDelete(item[dataKey[0]])} className="p-1 text-red-400 hover:text-red-300">
                     <X size={18} />
                     </button>:<></>}
-                    
                 </div>
               </td>
             </tr>)}

@@ -73,7 +73,7 @@ export function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState<"staff" | "admin" | null>(null);
   const [games,setGames] = useState([]);
-  const [currentSection, setCurrentSection] = useState("dashboard");
+  const [currentSection, setCurrentSection] = useState("users");
   const [showRentalForm, setShowRentalForm] = useState(false);
   const [showMembershipForm, setShowMembershipForm] = useState(false);
   const [showStaffForm, setShowStaffForm] = useState(false);
@@ -88,15 +88,8 @@ export function App() {
   const [rentalStatus, setRentalStatus] = useState<string|null>(null);
   const [staff, setStaff] = useState([]);
   const [gameId,setGameId ] = useState(null);
-  const handleLogin = (loginData: {
-    email: string;
-    password: string;
-    role: "staff" | "admin";
-  }) => {
-    setIsLoggedIn(true);
-    setUserRole(loginData.role);
-    console.log("Logged in as:", loginData.role);
-  };
+  const [pw,setpw]=useState("");
+  
   const handleLogout = () => {
     setIsLoggedIn(false);
   }
@@ -107,6 +100,33 @@ export function App() {
     console.log(route);
     console.log(data);
   }
+  const handleLogin = async(loginData: {
+    email: string;
+    password: string;
+    role: "staff" | "admin";
+  }) => {
+    //sky@gmail.com
+    //letmein2  
+    const {role, ...rest} = loginData;
+    const response = await fetch(`http://127.0.0.1:5000/login/${loginData.role}`, {
+      method: "POST",
+      headers: {
+      'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(rest)
+    });
+    const data = await response.json();
+    document.cookie = `userData=${JSON.stringify(data)}; path=/`;
+    console.log(data); 
+    Object.keys(data).includes("admin_id") && console.log("Admin");
+    if (Object.keys(data).includes("admin_id")) {
+      setIsLoggedIn(true);
+      setUserRole(loginData.role);
+      console.log("Logged in as:", loginData.role);
+    } else {
+      console.error("Login failed");
+    }
+  };
   const deleteRental = async (id: number) => {
     const response = await fetch(`http://127.0.0.1:5000/rental/${id}`, {
       method: "DELETE"
@@ -116,6 +136,8 @@ export function App() {
   }
 
   const addUser = async (data: any,url:string,setState:React.Dispatch<React.SetStateAction<any| null>>) => {
+    console.log("ADD USER")
+    console.log(data)
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -126,8 +148,9 @@ export function App() {
     const resData = await response.json();
     fetchData(url, setState);
   }
- const updateUser= async (data: any,id:number|null,url:string,closeForm:React.Dispatch<React.SetStateAction<any| null>>,setState:React.Dispatch<React.SetStateAction<any| null>>) => {
-    const response = await fetch(`${url}/${id}`, {
+ const updateUser= async (data: any,id:number|null,url:string,closeForm:React.Dispatch<React.SetStateAction<any| null>>,setState:React.Dispatch<React.SetStateAction<any| null>>,setId:React.Dispatch<React.SetStateAction<any| null>>) => {
+  console.log("STAFF")
+  const response = await fetch(`${url}/${id}`, {
       method: "PUT",
       headers: {
         'Content-Type': 'application/json'  
@@ -136,7 +159,7 @@ export function App() {
     });
     const resData = await response.json();
     closeForm(false);
-    setCustomerId(null);
+    setId(null);
     fetchData(url, setState);
  }
 
@@ -192,6 +215,23 @@ export function App() {
     const resData = await response.json();  
     fetchData("http://127.0.0.1:5000/notice", setNotice);
   }
+  const banUser= async (id:any) => {
+    console.log(id)
+    const response = await fetch(`http://127.0.0.1:5000/ban`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        customer_id: id,
+        reason: "Banned",
+        ban_date: new Date().toISOString().split('T')[0]
+      })
+    });
+    const data = await response.json();
+    fetchData("http://127.0.0.1:5000/customer", setCustomer);
+    console.log(data);
+  }
   useEffect(() => {
     console.log("Fetching data");
     fetchData("http://127.0.0.1:5000/rental", setRental);
@@ -203,33 +243,33 @@ export function App() {
   }, [])
   const renderAdminSection = () => {
     switch (currentSection) {
-      case "dashboard":
-        return <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {[{
-            title: "Total Users",
-            value: "1,234"
-          }, {
-            title: "Active Rentals",
-            value: "56"
-          }, {
-            title: "Total Games",
-            value: "89"
-          }].map(stat => <div key={stat.title} className="bg-gray-800 p-6 rounded-lg">
-            <h3 className="text-gray-400 text-sm">{stat.title}</h3>
-            <p className="text-white text-2xl font-bold">{stat.value}</p>
-          </div>)}
-        </div>;
+      // case "dashboard":
+      //   return <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      //     {[{
+      //       title: "Total Users",
+      //       value: "1,234"
+      //     }, {
+      //       title: "Active Rentals",
+      //       value: "56"
+      //     }, {
+      //       title: "Total Games",
+      //       value: "89"
+      //     }].map(stat => <div key={stat.title} className="bg-gray-800 p-6 rounded-lg">
+      //       <h3 className="text-gray-400 text-sm">{stat.title}</h3>
+      //       <p className="text-white text-2xl font-bold">{stat.value}</p>
+      //     </div>)}
+      //   </div>;
       case "users":
         return <div>
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-white">
               Users Management
             </h2>
-            <button onClick={() => setShowMembershipForm(true)} className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
+            {/* <button onClick={() => setShowMembershipForm(true)} className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
               Add Customer
-            </button>
+            </button> */}
           </div>
-          <RentalDataTable dataKey={["customer_id", "customer_name", "email", "created_date"]} headers={["ID", "Name", "Email", "JoinDate"]} data={customer} onEdit={(id) => { setCustomerId(id); setShowMembershipForm(true);}} onDelete={(id) => deleteUser(id,'http://127.0.0.1:5000/customer',setCustomer)} />
+          <RentalDataTable dataKey={["customer_id", "customer_name", "email", "created_date"]} headers={["ID", "Name", "Email", "JoinDate"]} data={customer} onEdit={(id) => { setCustomerId(id); setShowMembershipForm(true);}} onDelete={(id) => banUser(id)} />
         </div>;
       case "staff":
         return <div>
@@ -241,7 +281,7 @@ export function App() {
               Add New Staff
             </button>
           </div>
-          <RentalDataTable dataKey={["staff_id", "staff_name", "email", "type"]} headers={["ID", "Name", "Email", "Type"]} data={staff} onEdit={(id) => { setStaffId(id); setShowStaffForm(true);}} onDelete={(id) => deleteUser(id,'http://127.0.0.1:5000/staff',setStaff)} />
+          <RentalDataTable tableType="staff" dataKey={["staff_id", "staff_name", "email", "type"]} headers={["ID", "Name", "Email", "Type"]} data={staff} onEdit={(id) => { setStaffId(id); setShowStaffForm(true);}} onDelete={(id) => deleteUser(id,'http://127.0.0.1:5000/staff',setStaff)} />
         </div>;
       case "games":
         return <div>
@@ -253,7 +293,7 @@ export function App() {
               Add New Game
             </button>
           </div>
-          <DataTable dataKey={["game_id","game_name","stock_number","price"]} headers={["ID", "Title", "Stock", "Price"]} data={games} onEdit={(id) => { setGameId(id); setShowGameForm(true);}} onDelete={() => { }} />
+          <DataTable dataKey={["game_id","game_name","stock_number","price"]} headers={["ID", "Title", "Stock", "Price"]} data={games} onEdit={(id) => { setGameId(id); setShowGameForm(true);}} onDelete={(id) => deleteUser(id,'http://127.0.0.1:5000/game',setGames)} />
         </div>;
       case "notice":
         return <div>
@@ -302,7 +342,7 @@ export function App() {
               Add Customer
             </button>
           </div>
-          <RentalDataTable dataKey={["customer_id", "customer_name", "email", "created_date"]} headers={["ID", "Name", "Email", "JoinDate"]} data={customer} onEdit={(id) => { setCustomerId(id); setShowMembershipForm(true);}} onDelete={(id) => deleteUser(id,'http://127.0.0.1:5000/customer',setCustomer)} />
+          <RentalDataTable dataKey={["customer_id", "customer_name", "email", "created_date"]} headers={["ID", "Name", "Email", "JoinDate"]} data={customer} onEdit={(id) => { setCustomerId(id); setShowMembershipForm(true);}} onDelete={(id) => banUser(id)} />
         </div>;
       case "notice":
         return <div>
@@ -336,19 +376,18 @@ export function App() {
     }} onCancel={() => setShowRentalForm(false)} />}
 
     {showStaffForm && <StaffForm staffId={staffId} onSubmit={data => {
-      console.log("New staff:", data);
-      customerId!==null ? updateUser(data,staffId,"http://127.0.0.1:5000/staff",setShowStaffForm,setStaff):
+      staffId!==null ? updateUser(data,staffId,"http://127.0.0.1:5000/staff",setShowStaffForm,setStaff,setStaffId):
       addUser(data,"http://127.0.0.1:5000/staff",setStaff).then(() => setShowStaffForm(false))
     }} onCancel={() => setShowStaffForm(false)} />}
 
     {showMembershipForm && <MembershipForm onSubmit={data => {
-      customerId!==null ? updateUser(data,customerId,"http://127.0.0.1:5000/customer",setShowMembershipForm,setCustomer) :
+      customerId!==null ? updateUser(data,customerId,"http://127.0.0.1:5000/customer",setShowMembershipForm,setCustomer,setCustomerId) :
       addUser(data,"http://127.0.0.1:5000/customer",setCustomer).then(() => setShowMembershipForm(false))
     }} onCancel={() => setShowMembershipForm(false)} customerId={customerId} />}
 
     {showGameForm && <GameForm gameId={gameId} onSubmit={data => {
       console.log("New game:", data);
-      gameId!==null ? updateUser(data,gameId,"http://127.0.0.1:5000/game",setShowGameForm,setGames) :
+      gameId!==null ? updateUser(data,gameId,"http://127.0.0.1:5000/game",setShowGameForm,setGames,setGameId) :
       postGame(data).then(() =>setShowGameForm(false))
     }} onCancel={() => setShowGameForm(false)} />}
 
