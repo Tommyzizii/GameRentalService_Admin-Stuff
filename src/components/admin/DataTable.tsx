@@ -1,6 +1,7 @@
 import { Edit, Trash2 } from "lucide-react";
 interface DataTableProps {
   headers: string[];
+  dataKey: string[];
   data: any[];
   onEdit: (item: any) => void;
   onDelete: (item: any) => void;
@@ -9,6 +10,7 @@ export const DataTable = ({
   headers,
   data,
   onEdit,
+  dataKey,
   onDelete
 }: DataTableProps) => {
   return <div className="w-full overflow-x-auto rounded-lg border border-gray-700">
@@ -23,12 +25,12 @@ export const DataTable = ({
         </thead>
         <tbody className="bg-gray-800 divide-y divide-gray-700">
           {data.map((item, index) => <tr key={index} className="hover:bg-gray-700">
-              {headers.map(header => <td key={header} className="p-4 text-gray-300">
-                  {item[header.toLowerCase()]}
+              {dataKey.map(header => <td key={header} className="p-4 text-gray-300">
+                {item[header]}
                 </td>)}
               <td className="p-4">
                 <div className="flex space-x-2">
-                  <button onClick={() => onEdit(item)} className="p-1 text-blue-400 hover:text-blue-300">
+                  <button onClick={() => onEdit(item[dataKey[0]])} className="p-1 text-blue-400 hover:text-blue-300">
                     <Edit size={18} />
                   </button>
                   <button onClick={() => onDelete(item)} className="p-1 text-red-400 hover:text-red-300">

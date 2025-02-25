@@ -9,9 +9,9 @@ export const NoticeForm = ({
     onCancel
 }: GameFormProps) => {
     const [formData, setFormData] = useState({
-        id: "",
-        notice: "",
-        sendDate: ""
+        admin_id: "1",
+        reason: "",
+        date: new Date().toISOString().split('T')[0]
     });
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -35,9 +35,9 @@ export const NoticeForm = ({
                         <label className="block text-sm font-medium text-gray-300 mb-1">
                             Text
                         </label>
-                        <textarea className="w-full h-[200px] bg-gray-600 text-white px-4 py-2 rounded-lg text-start" value={formData.notice} onChange={e => setFormData({
+                        <textarea className="w-full h-[200px] bg-gray-600 text-white px-4 py-2 rounded-lg text-start" value={formData.reason} onChange={e => setFormData({
                             ...formData,
-                            notice: e.target.value
+                        reason: e.target.value
                         })} required />
                     </div>
                 </div>

@@ -1,29 +1,44 @@
-import React, { useState } from "react";
-import { User, Mail, MapPin } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { User, Mail, MapPin, Lock } from "lucide-react";
 interface MembershipFormProps {
   onSubmit: (data: any) => void;
-  onCancel: () => void;
+  onCancel: (id: any) => void;
+  customerId: number | null;
 }
 export const MembershipForm = ({
+  customerId = null,
   onSubmit,
   onCancel
 }: MembershipFormProps) => {
   const [formData, setFormData] = useState({
-    name: "",
+    customer_name: "",
     email: "",
-    phone: "",
-    dateOfBirth: "",
-    address: "",
+    phone_number: "",
+    street_address: "",
     city: "",
     state: "",
-    zipCode: "",
-    emergencyContact: "",
-    emergencyPhone: ""
+    zip_code: "",
+    password: "",
+    staff_id: 1
   });
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(formData);
   };
+  const data = async (customerId: any) => {
+    const res = await fetch(`http://127.0.0.1:5000/customer/${customerId}`);
+    const data = await res.json();
+    const { created_date, ...rest } = data;
+    setFormData({
+      ...rest,
+    });
+    console.log(data);
+  }
+  useEffect(() => {
+    if (customerId) {
+      data(customerId);
+    }
+  }, [customerId])
   return <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 overflow-y-auto">
     <div className="bg-gray-800 rounded-lg p-6 w-full max-w-2xl my-8">
       <div className="flex justify-between items-center mb-6">
@@ -38,17 +53,17 @@ export const MembershipForm = ({
             <User size={20} />
             Personal Information
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
+          <div className="flex w-full">
+            <div className="w-full">
               <label className="block text-sm font-medium text-gray-300 mb-1">
                 Full Name*
               </label>
-              <input type="text" className="w-full bg-gray-600 text-white px-4 py-2 rounded-lg" value={formData.name} onChange={e => setFormData({
+              <input type="text" className="w-full bg-gray-600 text-white px-4 py-2 rounded-lg" value={formData.customer_name} onChange={e => setFormData({
                 ...formData,
-                name: e.target.value
+                customer_name: e.target.value
               })} required />
             </div>
-            <div>
+            {/* <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
                 Date of Birth*
               </label>
@@ -56,7 +71,7 @@ export const MembershipForm = ({
                 ...formData,
                 dateOfBirth: e.target.value
               })} required />
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="bg-gray-700 p-4 rounded-lg space-y-4">
@@ -78,11 +93,23 @@ export const MembershipForm = ({
               <label className="block text-sm font-medium text-gray-300 mb-1">
                 Phone Number*
               </label>
-              <input type="tel" className="w-full bg-gray-600 text-white px-4 py-2 rounded-lg" value={formData.phone} onChange={e => setFormData({
+              <input type="tel" className="w-full bg-gray-600 text-white px-4 py-2 rounded-lg" value={formData.phone_number} onChange={e => setFormData({
                 ...formData,
-                phone: e.target.value
+                phone_number: e.target.value
               })} required />
             </div>
+          </div>
+        </div>
+        <div className="bg-gray-700 p-4 rounded-lg space-y-4">
+          <h3 className="text-lg font-medium text-white flex items-center gap-2">
+            <Lock size={20} />
+            Password
+          </h3>
+          <div className="flex w-full">
+            <input type="tel" className="w-full bg-gray-600 text-white px-4 py-2 rounded-lg" value={formData.password} onChange={e => setFormData({
+              ...formData,
+              password: e.target.value
+            })} required />
           </div>
         </div>
         <div className="bg-gray-700 p-4 rounded-lg space-y-4">
@@ -91,9 +118,9 @@ export const MembershipForm = ({
             Address
           </h3>
           <div className="space-y-4">
-            <input type="text" placeholder="Street Address" className="w-full bg-gray-600 text-white px-4 py-2 rounded-lg" value={formData.address} onChange={e => setFormData({
+            <input type="text" placeholder="Street Address" className="w-full bg-gray-600 text-white px-4 py-2 rounded-lg" value={formData.street_address} onChange={e => setFormData({
               ...formData,
-              address: e.target.value
+              street_address: e.target.value
             })} />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <input type="text" placeholder="City" className="w-full bg-gray-600 text-white px-4 py-2 rounded-lg" value={formData.city} onChange={e => setFormData({
@@ -104,9 +131,9 @@ export const MembershipForm = ({
                 ...formData,
                 state: e.target.value
               })} />
-              <input type="text" placeholder="ZIP Code" className="w-full bg-gray-600 text-white px-4 py-2 rounded-lg" value={formData.zipCode} onChange={e => setFormData({
+              <input type="text" placeholder="ZIP Code" className="w-full bg-gray-600 text-white px-4 py-2 rounded-lg" value={formData.zip_code} onChange={e => setFormData({
                 ...formData,
-                zipCode: e.target.value
+                zip_code: e.target.value
               })} />
             </div>
           </div>
